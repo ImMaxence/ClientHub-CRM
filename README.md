@@ -282,9 +282,9 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 ## 👨‍💻 Auteur
 
 **[Ton Nom]**
-- Email: [ton.email@exemple.com]
-- LinkedIn: [ton-profil-linkedin]
-- GitHub: [@ton-username]
+- Email: [maxence.bonnici@outlook.fr]
+- LinkedIn: [@Maxence Bonnici]
+- GitHub: [@ImMaxence]
 
 ## 🔗 Liens Utiles
 
@@ -298,5 +298,5 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 ---
 
 <div align="center">
-  <strong>ClientHub CRM</strong> - Développé avec ❤️ et 🐳 Docker en France
+  <strong>ClientHub CRM</strong> - Développé avec ❤️ en France
 </div>
