@@ -152,35 +152,6 @@ clienthub-crm/
 └── docs/                   # Documentation
 ```
 
-## 🐳 Services Docker
-
-### 📦 **database** (PostgreSQL 15)
-- **Port** : 5432
-- **Base** : clienthub
-- **Utilisateur** : admin
-- **Volumes** : Persistance des données
-
-### 🚀 **backend** (Spring Boot + OpenJDK 17)
-- **Port** : 8080
-- **API REST** : /api/v1/
-- **Swagger** : http://localhost:8080/swagger-ui.html
-- **Health Check** : http://localhost:8080/actuator/health
-
-### 🌐 **frontend** (Angular + Nginx)
-- **Port** : 4200
-- **SPA** : Application monopage
-- **Build optimisé** pour la production
-- **Proxy API** : /api/* → backend:8080
-
-## 🎨 Charte Graphique
-
-### Couleurs Principales
-- **Bleu Principal**: `#2563eb`
-- **Bleu Foncé**: `#1d4ed8`
-- **Gris Anthracite**: `#1e293b`
-- **Gris Moyen**: `#64748b`
-- **Gris Clair**: `#f8fafc`
-
 ### Logo
 Le logo ClientHub représente un hub de connexions, symbolisant les relations clients centralisées.
 
