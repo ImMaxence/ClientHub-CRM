@@ -210,15 +210,6 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 - LinkedIn: [@Maxence Bonnici]
 - GitHub: [@ImMaxence]
 
-## 🔗 Liens Utiles
-
-- [Documentation Angular v20](https://angular.dev)
-- [Guide Spring Boot](https://spring.io/guides)
-- [Docker Compose Documentation](https://docs.docker.com/compose/)
-- [PostgreSQL Docker Image](https://hub.docker.com/_/postgres)
-- [Angular Material](https://material.angular.io)
-- [Tailwind CSS](https://tailwindcss.com)
-
 ---
 
 <div align="center">
