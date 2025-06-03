@@ -13,7 +13,7 @@ ClientHub est une solution CRM complète conçue pour les entreprises souhaitant
 - Améliorer le suivi des interactions commerciales
 - Fournir des statistiques et analyses pertinantes
 - Faciliter la collaboration entre équipes commerciales
-- **Déploiement simplifié** avec Docker
+- Déploiement simplifié avec Docker
 
 ## 🛠️ Technologies
 
@@ -41,7 +41,7 @@ ClientHub est une solution CRM complète conçue pour les entreprises souhaitant
 ## ✨ Fonctionnalités
 
 ### 🔐 Authentification
-- [x] Architecture Docker multi-services
+- [ ] Architecture Docker multi-services
 - [ ] Connexion sécurisée avec JWT
 - [ ] Gestion des rôles utilisateurs
 - [ ] Récupération de mot de passe
@@ -95,25 +95,6 @@ docker-compose up -d --build
 - 🔌 **API Backend** : http://localhost:8080
 - 🗄️ **Base de données** : localhost:5432
 
-### 🛠️ Commandes utiles
-
-```bash
-# Voir les logs
-docker-compose logs -f
-
-# Redémarrer un service spécifique
-docker-compose restart backend
-
-# Accéder à la base de données
-docker-compose exec database psql -U admin -d clienthub
-
-# Stopper tous les services
-docker-compose down
-
-# Supprimer les volumes (⚠️ perte de données)
-docker-compose down -v
-```
-
 ### 🔧 Développement local (sans Docker)
 
 <details>
@@ -137,7 +118,7 @@ ng serve
 
 </details>
 
-## 🏗️ Architecture Docker
+## 🏗️ Architecture
 
 ```
 clienthub-crm/
@@ -203,33 +184,6 @@ clienthub-crm/
 ### Logo
 Le logo ClientHub représente un hub de connexions, symbolisant les relations clients centralisées.
 
-## 📈 Roadmap
-
-### Phase 1 - Infrastructure & MVP (Q2 2025)
-- [x] Setup Docker multi-services
-- [x] Identité visuelle et charte graphique
-- [ ] Backend : Configuration Spring Boot + PostgreSQL
-- [ ] Backend : Authentification JWT + Docker
-- [ ] Backend : CRUD Clients avec API REST
-- [ ] Frontend : Build Angular optimisé pour Docker
-- [ ] Frontend : Pages de connexion + routing
-- [ ] Frontend : Liste et gestion clients
-
-### Phase 2 - Fonctionnalités Avancées (Q3 2025)
-- [ ] Dashboard avec statistiques temps réel
-- [ ] Système de notifications WebSocket
-- [ ] Export de données (PDF, Excel)
-- [ ] API de recherche avancée avec pagination
-- [ ] Cache Redis pour les performances
-
-### Phase 3 - Production & Déploiement (Q4 2025)
-- [ ] Configuration Docker production
-- [ ] CI/CD avec GitHub Actions
-- [ ] Monitoring avec Prometheus/Grafana
-- [ ] Tests automatisés (backend + frontend)
-- [ ] Documentation API complète
-- [ ] Sécurité renforcée (rate limiting, CORS)
-
 ## 🚀 Déploiement
 
 ### Développement
@@ -281,7 +235,6 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ## 👨‍💻 Auteur
 
-**[Ton Nom]**
 - Email: [maxence.bonnici@outlook.fr]
 - LinkedIn: [@Maxence Bonnici]
 - GitHub: [@ImMaxence]
