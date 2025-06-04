@@ -1,7 +1,8 @@
-package com.clienthub.crm.controller;
+package com.clienthub.crm.clienthub.controller;
 
-import com.clienthub.crm.model.Client;
-import com.clienthub.crm.repository.ClientRepository;
+import com.clienthub.crm.clienthub.model.Client;
+import com.clienthub.crm.clienthub.repository.ClientRepository;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
