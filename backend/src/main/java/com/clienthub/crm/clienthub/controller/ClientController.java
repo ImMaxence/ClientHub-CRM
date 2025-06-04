@@ -1,7 +1,7 @@
 package com.clienthub.crm.clienthub.controller;
 
 import com.clienthub.crm.clienthub.model.Client;
-import com.clienthub.crm.clienthub.repository.ClientRepository;
+import com.clienthub.crm.clienthub.service.ClientService;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -11,25 +11,19 @@ import java.util.List;
 @RequestMapping("/api/clients")
 public class ClientController {
 
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
 
-    // Le constructeur permet l'injection de dépendance du repository
-    public ClientController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
-    // Endpoint GET pour récupérer la liste de tous les clients
     @GetMapping
     public List<Client> getAllClients() {
-        return clientRepository.findAll();
+        return clientService.getAllClients();
     }
 
-    // Endpoint POST pour ajouter un nouveau client à la base de données
     @PostMapping
     public Client createClient(@RequestBody Client client) {
-        return clientRepository.save(client);
+        return clientService.createClient(client);
     }
-
-    // Par la suite, on pourra ajouter d’autres endpoints pour modifier ou supprimer
-    // un client
 }
