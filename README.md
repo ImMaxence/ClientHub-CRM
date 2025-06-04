@@ -4,6 +4,8 @@
 
 Un système de gestion de la relation client (CRM) moderne et intuitif, développé avec Angular v20 et Spring Boot, entièrement containerisé avec Docker.
 
+🔗 **Accéder à l'application :** [clienthub.mbonnici.fr](https://clienthub.mbonnici.fr)
+
 ## 📋 Description du Projet
 
 ClientHub est une solution CRM complète conçue pour les entreprises souhaitant centraliser et optimiser la gestion de leurs relations clients. L'application offre une interface utilisateur moderne et responsive, couplée à une API REST robuste, le tout orchestré avec Docker pour une facilité de déploiement maximale.
