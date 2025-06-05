@@ -3,9 +3,13 @@ package com.clienthub.crm.clienthub.controller;
 import com.clienthub.crm.clienthub.model.Client;
 import com.clienthub.crm.clienthub.service.ClientService;
 
-import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/clients")
@@ -18,12 +22,12 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<Client> getAllClients() {
-        return clientService.getAllClients();
+    public Page<Client> getAllClients(Pageable pageable) {
+        return clientService.getAllClients(pageable);
     }
 
     @PostMapping
-    public Client createClient(@RequestBody Client client) {
+    public Client createClient(@Valid @RequestBody Client client) {
         return clientService.createClient(client);
     }
 
@@ -38,7 +42,12 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public Client updateClient(@PathVariable Long id, @RequestBody Client clientDetail) {
+    public Client updateClient(@PathVariable Long id, @Valid @RequestBody Client clientDetail) {
         return clientService.updateClient(id, clientDetail);
+    }
+
+    @GetMapping("/search")
+    public List<Client> getByName(@RequestParam String q) {
+        return clientService.searchByName(q);
     }
 }
