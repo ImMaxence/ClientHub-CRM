@@ -36,6 +36,11 @@ public class ClientService {
         clientRepository.delete(client);
     }
 
-    // update client
+    public Client updateClient(Long id, Client clientDetail) {
+        Client client = getClientById(id);
+        client.setNom(clientDetail.getNom());
+        client.setEmail(clientDetail.getEmail());
+        return clientRepository.save(client);
+    }
 
 }
