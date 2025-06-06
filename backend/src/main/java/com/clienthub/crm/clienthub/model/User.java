@@ -1,5 +1,6 @@
 package com.clienthub.crm.clienthub.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +29,7 @@ public class User {
 
     @Email(message = "L'email doit être valide")
     @NotBlank(message = "L'email est obligatoire")
+    @Column(unique = true)
     private String email;
 
 }
