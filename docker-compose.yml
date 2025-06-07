@@ -1,14 +1,12 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:latest
     env_file:
       - .env
     environment:
-      - POSTGRES_DB=${DB_URL##*/}         # <dbname> extrait de la chaîne JDBC
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${POSTGRES_DB}         # <dbname> extrait de la chaîne JDBC
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - '5432:5432'
 
