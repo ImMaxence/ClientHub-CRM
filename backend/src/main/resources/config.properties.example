@@ -1,8 +1,5 @@
-# backend/.env
-# Variables pour Spring Boot
 DB_URL=
 DB_USER=
 DB_PASS=
-
 FILE_SERVICE_BASE_URL=
 FILE_SERVICE_TOKEN=
