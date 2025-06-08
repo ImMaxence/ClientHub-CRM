@@ -24,4 +24,6 @@ public class Client {
     @Email(message = "L'email doit être valide")
     @NotBlank(message = "L'email est obligatoire")
     private String email;
+
+    private String avatarUrl;
 }
