@@ -38,7 +38,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         // Endpoints publics (pas de protection)
-                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "/swagger-ui/index.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/**").permitAll()
                         // Tous les autres endpoints nécessitent une authentification
                         .anyRequest().authenticated())
