@@ -77,6 +77,8 @@ public class Company {
     @LastModifiedBy
     private String lastModifiedBy;
 
+    private String avatarUrl;
+
     // Enums
     public enum CompanySize {
         SMALL, MEDIUM, LARGE

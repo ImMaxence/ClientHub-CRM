@@ -14,20 +14,15 @@ import com.clienthub.crm.clienthub.client.FastApiClient;
 import com.clienthub.crm.clienthub.model.User;
 import com.clienthub.crm.clienthub.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final FastApiClient fastApiClient;
-
-    public UserService(UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
-            FastApiClient fastApiClient) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.fastApiClient = fastApiClient;
-    }
 
     public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);

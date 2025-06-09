@@ -12,16 +12,14 @@ import com.clienthub.crm.clienthub.model.User;
 import com.clienthub.crm.clienthub.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping
     public Page<User> getAllUsers(Pageable pageable) {
