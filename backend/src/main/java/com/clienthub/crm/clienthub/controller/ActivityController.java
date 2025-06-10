@@ -3,6 +3,10 @@ package com.clienthub.crm.clienthub.controller;
 import com.clienthub.crm.clienthub.model.Activity;
 import com.clienthub.crm.clienthub.model.Activity.ActivityType;
 import com.clienthub.crm.clienthub.service.ActivityService;
+import com.clienthub.crm.clienthub.dto.ActivityRequest;
+import com.clienthub.crm.clienthub.dto.ActivityResponse;
+import com.clienthub.crm.clienthub.dto.mapper.ActivityResponseMapper;
+import com.clienthub.crm.clienthub.dto.mapper.ActivityRequestMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,23 +30,23 @@ public class ActivityController {
     private final ActivityService activityService;
 
     @PostMapping
-    public ResponseEntity<Activity> createActivity(@Valid @RequestBody Activity activity) {
-        Activity createdActivity = activityService.createActivity(activity);
-        return new ResponseEntity<>(createdActivity, HttpStatus.CREATED);
+    public ResponseEntity<ActivityResponse> createActivity(@Valid @RequestBody ActivityRequest activityRequest) {
+        Activity createdActivity = activityService.createActivity(ActivityRequestMapper.toEntity(activityRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ActivityResponseMapper.toDto(createdActivity));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Activity> getActivityById(@PathVariable Long id) {
+    public ResponseEntity<ActivityResponse> getActivityById(@PathVariable Long id) {
         Activity activity = activityService.getActivityById(id);
         if (activity != null) {
-            return ResponseEntity.ok(activity);
+            return ResponseEntity.ok(ActivityResponseMapper.toDto(activity));
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping
-    public ResponseEntity<Page<Activity>> getAllActivities(
+    public ResponseEntity<Page<ActivityResponse>> getAllActivities(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "date") String sortBy,
@@ -52,46 +56,46 @@ public class ActivityController {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         Page<Activity> activities = activityService.getAllActivities(pageable);
-        return ResponseEntity.ok(activities);
+        return ResponseEntity.ok(activities.map(ActivityResponseMapper::toDto));
     }
 
     @GetMapping("/company/{companyId}")
-    public ResponseEntity<List<Activity>> getActivitiesByCompany(@PathVariable Long companyId) {
+    public ResponseEntity<List<ActivityResponse>> getActivitiesByCompany(@PathVariable Long companyId) {
         List<Activity> activities = activityService.getActivitiesByCompany(companyId);
-        return ResponseEntity.ok(activities);
+        return ResponseEntity.ok(activities.stream().map(ActivityResponseMapper::toDto).toList());
     }
 
     @GetMapping("/contact/{contactId}")
-    public ResponseEntity<List<Activity>> getActivitiesByContact(@PathVariable Long contactId) {
+    public ResponseEntity<List<ActivityResponse>> getActivitiesByContact(@PathVariable Long contactId) {
         List<Activity> activities = activityService.getActivitiesByContact(contactId);
-        return ResponseEntity.ok(activities);
+        return ResponseEntity.ok(activities.stream().map(ActivityResponseMapper::toDto).toList());
     }
 
     @GetMapping("/type/{type}")
-    public ResponseEntity<List<Activity>> getActivitiesByType(@PathVariable ActivityType type) {
+    public ResponseEntity<List<ActivityResponse>> getActivitiesByType(@PathVariable ActivityType type) {
         List<Activity> activities = activityService.getActivitiesByType(type);
-        return ResponseEntity.ok(activities);
+        return ResponseEntity.ok(activities.stream().map(ActivityResponseMapper::toDto).toList());
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Activity>> getActivitiesByUser(@PathVariable Long userId) {
+    public ResponseEntity<List<ActivityResponse>> getActivitiesByUser(@PathVariable Long userId) {
         List<Activity> activities = activityService.getActivitiesByUser(userId);
-        return ResponseEntity.ok(activities);
+        return ResponseEntity.ok(activities.stream().map(ActivityResponseMapper::toDto).toList());
     }
 
     @GetMapping("/date-range")
-    public ResponseEntity<List<Activity>> getActivitiesByDateRange(
+    public ResponseEntity<List<ActivityResponse>> getActivitiesByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
 
         List<Activity> activities = activityService.getActivitiesByDateRange(startDate, endDate);
-        return ResponseEntity.ok(activities);
+        return ResponseEntity.ok(activities.stream().map(ActivityResponseMapper::toDto).toList());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Activity> updateActivity(@PathVariable Long id, @Valid @RequestBody Activity activity) {
-        Activity updatedActivity = activityService.updateActivity(id, activity);
-        return ResponseEntity.ok(updatedActivity);
+    public ResponseEntity<ActivityResponse> updateActivity(@PathVariable Long id, @Valid @RequestBody ActivityRequest activityRequest) {
+        Activity updatedActivity = activityService.updateActivity(id, ActivityRequestMapper.toEntity(activityRequest));
+        return ResponseEntity.ok(ActivityResponseMapper.toDto(updatedActivity));
     }
 
     @DeleteMapping("/{id}")

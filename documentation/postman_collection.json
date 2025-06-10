@@ -1,0 +1,177 @@
+{
+  "info": {
+    "_postman_id": "clienthub-crm-collection-full-001",
+    "name": "ClientHub CRM API (Full)",
+    "documentation": "\n# Collection Postman ClientHub CRM\n\n- **Login** : Utiliser `email` et `password`.\n- **Création d'utilisateur** : Seul le rôle USER est possible via l'API.\n- **Changement de rôle** : Uniquement un ADMIN peut changer un rôle via le endpoint `/api/users/{id}/role`.\n- **Admin par défaut** :\n    - Email : admin@clienthub.local\n    - Password : admin1234\n\n## Gestion des erreurs\n- **401 Unauthorized** :\n```json\n{\n  \"status\": 401,\n  \"error\": \"Unauthorized\",\n  \"message\": \"Token d'authentification manquant ou invalide\",\n  \"path\": \"...\"\n}\n```\n- **403 Forbidden** :\n```json\n{\n  \"status\": 403,\n  \"error\": \"Forbidden\",\n  \"message\": \"Vous n'avez pas les droits nécessaires\",\n  \"path\": \"...\"\n}\n```\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth - Register",
+      "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"username\": \"demo\",\n  \"email\": \"demo@example.com\",\n  \"password\": \"demo1234\"\n}" }, "url": { "raw": "{{baseUrl}}/api/auth/register", "host": ["{{baseUrl}}"], "path": ["api", "auth", "register"] } }
+    },
+    {
+      "name": "Auth - Login",
+      "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"email\": \"demo@example.com\",\n  \"password\": \"demo1234\"\n}"
+          },
+          "url": {
+            "raw": "{{baseUrl}}/api/auth/login",
+            "host": [
+              "{{baseUrl}}"
+            ],
+            "path": [
+              "api",
+              "auth",
+              "login"
+            ]
+          }
+        }
+    },
+    {
+      "name": "User - Get All",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api", "users"] } }
+    },
+    {
+      "name": "User - Get By ID",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/users/1", "host": ["{{baseUrl}}"], "path": ["api", "users", "1"] } }
+    },
+    {
+      "name": "User - Search By Name",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/users/search?q=demo", "host": ["{{baseUrl}}"], "path": ["api", "users", "search"], "query": [{"key": "q", "value": "demo"}] } }
+    },
+    {
+      "name": "User - Create",
+      "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"username\": \"newuser\",\n  \"email\": \"user@example.com\",\n  \"password\": \"pass\"\n}" }, "url": { "raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api", "users"] } }
+    },
+    {
+      "name": "User - Update",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"username\": \"updated\",\n  \"email\": \"updated@example.com\"\n}" }, "url": { "raw": "{{baseUrl}}/api/users/1", "host": ["{{baseUrl}}"], "path": ["api", "users", "1"] } }
+    },
+    {
+      "name": "User - Delete",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/users/1", "host": ["{{baseUrl}}"], "path": ["api", "users", "1"] } }
+    },
+    {
+      "name": "User - Upload Avatar",
+      "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "multipart/form-data" }], "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "" }] }, "url": { "raw": "{{baseUrl}}/api/users/1/avatar", "host": ["{{baseUrl}}"], "path": ["api", "users", "1", "avatar"] } }
+    },
+    {
+      "name": "User - Update Role",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/users/1/role?role=ROLE_ADMIN", "host": ["{{baseUrl}}"], "path": ["api", "users", "1", "role"], "query": [{"key": "role", "value": "ROLE_ADMIN"}] } }
+    },
+    {
+      "name": "Company - Get All",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/companies", "host": ["{{baseUrl}}"], "path": ["api", "companies"] } }
+    },
+    {
+      "name": "Company - Get By ID",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/companies/1", "host": ["{{baseUrl}}"], "path": ["api", "companies", "1"] } }
+    },
+    {
+      "name": "Company - Create",
+      "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Nouvelle société\",\n  \"industry\": \"IT\",\n  \"size\": 10\n}" }, "url": { "raw": "{{baseUrl}}/api/companies", "host": ["{{baseUrl}}"], "path": ["api", "companies"] } }
+    },
+    {
+      "name": "Company - Update",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Société modifiée\"\n}" }, "url": { "raw": "{{baseUrl}}/api/companies/1", "host": ["{{baseUrl}}"], "path": ["api", "companies", "1"] } }
+    },
+    {
+      "name": "Company - Delete",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/companies/1", "host": ["{{baseUrl}}"], "path": ["api", "companies", "1"] } }
+    },
+    {
+      "name": "Company - Upload Avatar",
+      "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "multipart/form-data" }], "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "" }] }, "url": { "raw": "{{baseUrl}}/api/companies/1/avatar", "host": ["{{baseUrl}}"], "path": ["api", "companies", "1", "avatar"] } }
+    },
+    {
+      "name": "Deal - Get All",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/deals", "host": ["{{baseUrl}}"], "path": ["api", "deals"] } }
+    },
+    {
+      "name": "Deal - Get By ID",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/deals/1", "host": ["{{baseUrl}}"], "path": ["api", "deals", "1"] } }
+    },
+    {
+      "name": "Deal - Create",
+      "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Nouveau deal\",\n  \"value\": 1000\n}" }, "url": { "raw": "{{baseUrl}}/api/deals", "host": ["{{baseUrl}}"], "path": ["api", "deals"] } }
+    },
+    {
+      "name": "Deal - Update",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"title\": \"Deal modifié\"\n}" }, "url": { "raw": "{{baseUrl}}/api/deals/1", "host": ["{{baseUrl}}"], "path": ["api", "deals", "1"] } }
+    },
+    {
+      "name": "Deal - Delete",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/deals/1", "host": ["{{baseUrl}}"], "path": ["api", "deals", "1"] } }
+    },
+    {
+      "name": "Note - Get All",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/notes", "host": ["{{baseUrl}}"], "path": ["api", "notes"] } }
+    },
+    {
+      "name": "Note - Get By ID",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/notes/1", "host": ["{{baseUrl}}"], "path": ["api", "notes", "1"] } }
+    },
+    {
+      "name": "Note - Create",
+      "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"content\": \"Nouvelle note\"\n}" }, "url": { "raw": "{{baseUrl}}/api/notes", "host": ["{{baseUrl}}"], "path": ["api", "notes"] } }
+    },
+    {
+      "name": "Note - Update",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"content\": \"Note modifiée\"\n}" }, "url": { "raw": "{{baseUrl}}/api/notes/1", "host": ["{{baseUrl}}"], "path": ["api", "notes", "1"] } }
+    },
+    {
+      "name": "Note - Delete",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/notes/1", "host": ["{{baseUrl}}"], "path": ["api", "notes", "1"] } }
+    },
+    {
+      "name": "Dashboard - Global Stats",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/dashboard/summary", "host": ["{{baseUrl}}"], "path": ["api", "dashboard", "summary"] } }
+    },
+    {
+      "name": "Dashboard - User Stats",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/dashboard/user/1", "host": ["{{baseUrl}}"], "path": ["api", "dashboard", "user", "1"] } }
+    },
+    {
+      "name": "Activity - Create",
+      "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"type\": \"CALL\",\n  \"description\": \"Appel client\"\n}" }, "url": { "raw": "{{baseUrl}}/api/activities", "host": ["{{baseUrl}}"], "path": ["api", "activities"] } }
+    },
+    {
+      "name": "Activity - Get By ID",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/activities/1", "host": ["{{baseUrl}}"], "path": ["api", "activities", "1"] } }
+    },
+    {
+      "name": "Activity - Update",
+      "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"type\": \"EMAIL\"\n}" }, "url": { "raw": "{{baseUrl}}/api/activities/1", "host": ["{{baseUrl}}"], "path": ["api", "activities", "1"] } }
+    },
+    {
+      "name": "Activity - Delete",
+      "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/activities/1", "host": ["{{baseUrl}}"], "path": ["api", "activities", "1"] } }
+    },
+    {
+      "name": "Activity - Get Company Stats",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/activities/stats/company/1", "host": ["{{baseUrl}}"], "path": ["api", "activities", "stats", "company", "1"] } }
+    },
+    {
+      "name": "Activity - Get Type Stats",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/activities/stats/type/CALL", "host": ["{{baseUrl}}"], "path": ["api", "activities", "stats", "type", "CALL"] } }
+    },
+    {
+      "name": "Activity - Get Types",
+      "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{jwt}}" }], "url": { "raw": "{{baseUrl}}/api/activities/types", "host": ["{{baseUrl}}"], "path": ["api", "activities", "types"] } }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "jwt", "value": "" }
+  ]
+}

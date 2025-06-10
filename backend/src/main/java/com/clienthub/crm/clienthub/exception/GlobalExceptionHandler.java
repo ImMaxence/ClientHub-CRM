@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +33,28 @@ public class GlobalExceptionHandler {
         logger.error("ResponseStatusException - {}: {}", status.value(), ex.getReason(), ex);
 
         return new ResponseEntity<>(generateErrorBody(status, ex.getReason(), request), status);
+    }
+
+    /**
+     * Gestion des accès refusés (403 Forbidden)
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+        logger.warn("AccessDeniedException: {}", ex.getMessage());
+        return new ResponseEntity<>(
+                generateErrorBody(HttpStatus.FORBIDDEN, "Vous n'avez pas les droits nécessaires", request),
+                HttpStatus.FORBIDDEN);
+    }
+
+    /**
+     * Gestion des erreurs d'authentification (401 Unauthorized)
+     */
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthenticationException(AuthenticationCredentialsNotFoundException ex, WebRequest request) {
+        logger.warn("AuthenticationCredentialsNotFoundException: {}", ex.getMessage());
+        return new ResponseEntity<>(
+                generateErrorBody(HttpStatus.UNAUTHORIZED, "Token d'authentification manquant ou invalide", request),
+                HttpStatus.UNAUTHORIZED);
     }
 
     /**

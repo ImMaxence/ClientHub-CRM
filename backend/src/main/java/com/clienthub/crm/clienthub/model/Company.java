@@ -79,7 +79,6 @@ public class Company {
 
     private String avatarUrl;
 
-    // Enums
     public enum CompanySize {
         SMALL, MEDIUM, LARGE
     }

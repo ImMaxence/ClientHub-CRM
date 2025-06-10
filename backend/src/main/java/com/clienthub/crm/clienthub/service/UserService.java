@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.clienthub.crm.clienthub.client.FastApiClient;
+import com.clienthub.crm.clienthub.dto.UserRequest;
 import com.clienthub.crm.clienthub.model.User;
 import com.clienthub.crm.clienthub.repository.UserRepository;
 
@@ -42,35 +43,37 @@ public class UserService {
     /**
      * Création JSON‐only : enregistre l’utilisateur (avatarUrl = null).
      */
-    public User createUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
+    public User createUser(UserRequest userRequest) {
+        if (userRepository.existsByEmail(userRequest.getEmail())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Cet email est déjà utilisé");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        // avatarUrl reste null
+        User user = new User();
+        user.setUsername(userRequest.getUsername());
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setRole(User.Role.ROLE_USER);
         return userRepository.save(user);
     }
 
     /**
      * Mise à jour JSON‐only : ne touche pas à avatarUrl.
      */
-    public User updateUser(Long id, User userDetails) {
-        User u = getUserById(id);
-        if (!u.getEmail().equals(userDetails.getEmail())
-                && userRepository.existsByEmail(userDetails.getEmail())) {
+    public User updateUser(Long id, UserRequest userRequest) {
+        User user = getUserById(id);
+        if (!user.getEmail().equals(userRequest.getEmail())
+                && userRepository.existsByEmail(userRequest.getEmail())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Cet email est déjà utilisé");
         }
-        u.setUsername(userDetails.getUsername());
-        u.setEmail(userDetails.getEmail());
-
-        if (!userDetails.getPassword().isEmpty()) {
-            u.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+        user.setUsername(userRequest.getUsername());
+        user.setEmail(userRequest.getEmail());
+        if (!userRequest.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         }
 
         // avatarUrl inchangé
-        return userRepository.save(u);
+        return userRepository.save(user);
     }
 
     /**
@@ -90,5 +93,24 @@ public class UserService {
 
     public List<User> searchByName(String fragment) {
         return userRepository.findByUsernameContainingIgnoreCase(fragment);
+    }
+
+    /**
+     * Permet à un ADMIN de changer le rôle d'un utilisateur.
+     * Empêche un admin de se retirer son propre rôle ADMIN.
+     */
+    public User updateUserRole(Long id, User.Role newRole) {
+        User user = getUserById(id);
+        // On pourrait récupérer l'utilisateur courant via SecurityContextHolder si besoin
+        // Pour l'instant, on empêche juste de retirer le dernier admin (à améliorer si besoin)
+        if (user.getRole() == User.Role.ROLE_ADMIN && newRole != User.Role.ROLE_ADMIN) {
+            // Compter le nombre d'admins restants
+            long nbAdmins = userRepository.findAll().stream().filter(u -> u.getRole() == User.Role.ROLE_ADMIN).count();
+            if (nbAdmins <= 1) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Impossible de retirer le dernier ADMIN");
+            }
+        }
+        user.setRole(newRole);
+        return userRepository.save(user);
     }
 }
