@@ -1,0 +1,22 @@
+<div class="register-container">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="register-form">
+    <h2>Créer un compte</h2>
+    <label>Nom d'utilisateur</label>
+    <input formControlName="username" type="text" placeholder="Votre nom" required [class.invalid]="form.get('username')?.invalid && form.get('username')?.touched">
+    <div class="field-error" *ngIf="form.get('username')?.invalid && form.get('username')?.touched">Nom d'utilisateur requis</div>
+
+    <label>Email</label>
+    <input formControlName="email" type="email" placeholder="Votre email" required [class.invalid]="form.get('email')?.invalid && form.get('email')?.touched">
+    <div class="field-error" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">Email invalide</div>
+
+    <label>Mot de passe</label>
+    <input formControlName="password" type="password" placeholder="Mot de passe" required [class.invalid]="form.get('password')?.invalid && form.get('password')?.touched">
+    <div class="field-error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">Mot de passe (6+ caractères)</div>
+
+    <button type="submit" [disabled]="loading || form.invalid">S'inscrire</button>
+    <div *ngIf="error" class="error-block">{{ error }}</div>
+  </form>
+  <div class="login-link">
+    <a routerLink="/login">Déjà un compte ?</a>
+  </div>
+</div>

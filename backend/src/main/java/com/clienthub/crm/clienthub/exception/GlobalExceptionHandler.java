@@ -77,12 +77,69 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Gestion des erreurs de validation JPA (entités)
+     */
+    @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleJpaConstraintViolation(jakarta.validation.ConstraintViolationException jcv, WebRequest request) {
+        Map<String, String> validationErrors = new HashMap<>();
+        jcv.getConstraintViolations().forEach(violation -> {
+            String field = violation.getPropertyPath().toString();
+            validationErrors.put(field, violation.getMessage());
+        });
+        logger.warn("JPA Validation Error: {}", validationErrors);
+        Map<String, Object> errorBody = generateErrorBody(HttpStatus.BAD_REQUEST, "Validation failed", request);
+        errorBody.put("errors", validationErrors);
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Gestion des erreurs d'intégrité de données (ex: unicité)
+     */
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleDataIntegrityViolation(org.springframework.dao.DataIntegrityViolationException ex, WebRequest request) {
+        logger.warn("DataIntegrityViolationException: {}", ex.getMessage());
+        Map<String, Object> errorBody = generateErrorBody(HttpStatus.BAD_REQUEST, "Violation d'intégrité des données", request);
+        return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Gestion des erreurs de validation wrapées dans une TransactionSystemException
+     */
+    @ExceptionHandler(org.springframework.transaction.TransactionSystemException.class)
+    public ResponseEntity<Map<String, Object>> handleTransactionSystemException(org.springframework.transaction.TransactionSystemException ex, WebRequest request) {
+        Throwable cause = ex;
+        while (cause != null) {
+            if (cause instanceof jakarta.validation.ConstraintViolationException jcv) {
+                Map<String, String> validationErrors = new HashMap<>();
+                jcv.getConstraintViolations().forEach(violation -> {
+                    String field = violation.getPropertyPath().toString();
+                    validationErrors.put(field, violation.getMessage());
+                });
+                logger.warn("Transaction Validation Error: {}", validationErrors);
+                Map<String, Object> errorBody = generateErrorBody(HttpStatus.BAD_REQUEST, "Validation failed", request);
+                errorBody.put("errors", validationErrors);
+                return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
+            }
+            cause = cause.getCause();
+        }
+        logger.error("TransactionSystemException: {}", ex.getMessage(), ex);
+        return new ResponseEntity<>(
+                generateErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, "Une erreur inattendue est survenue", request),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
      * Gestion globale des exceptions génériques
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex, WebRequest request) {
-        logger.error("Unexpected Exception: {}", ex.getMessage(), ex);
-
+        logger.error("Unexpected Exception ({}): {}", ex.getClass().getName(), ex.getMessage(), ex);
+        // Log toute la chaîne des causes
+        Throwable cause = ex;
+        while (cause != null) {
+            logger.error("CAUSE CHAIN: {} - {}", cause.getClass().getName(), cause.getMessage());
+            cause = cause.getCause();
+        }
         return new ResponseEntity<>(
                 generateErrorBody(HttpStatus.INTERNAL_SERVER_ERROR, "Une erreur inattendue est survenue", request),
                 HttpStatus.INTERNAL_SERVER_ERROR);

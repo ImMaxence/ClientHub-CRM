@@ -1,0 +1,94 @@
+.register-container {
+  max-width: 400px;
+  margin: 60px auto 0 auto;
+  padding: 2.5rem 2rem 1.5rem 2rem;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+}
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+.register-form h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+.register-form label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.register-form input {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #d2d6dc;
+  border-radius: 7px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+.register-form input:focus {
+  border: 1.5px solid #5b9cff;
+  background: #f7fbff;
+}
+.register-form input.invalid {
+  border-color: #e53935;
+  background: #fff7f7;
+}
+.field-error {
+  color: #e53935;
+  font-size: 0.93rem;
+  margin-top: -0.7rem;
+  margin-bottom: 0.3rem;
+}
+.register-form button[type="submit"] {
+  margin-top: 0.6rem;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 7px;
+  background: linear-gradient(90deg, #5b9cff 0%, #2b6cb0 100%);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(91,156,255,0.10);
+}
+.register-form button[type="submit"]:disabled {
+  background: #b3c7e6;
+  cursor: not-allowed;
+}
+.error-block {
+  margin-top: 1rem;
+  background: #ffeaea;
+  color: #b71c1c;
+  border: 1.5px solid #e53935;
+  border-radius: 7px;
+  padding: 0.8rem 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.login-link {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.login-link a {
+  color: #2b6cb0;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.05rem;
+  transition: color 0.2s;
+}
+.login-link a:hover {
+  color: #5b9cff;
+}
+@media (max-width: 600px) {
+  .register-container {
+    padding: 1.2rem 0.7rem 1.2rem 0.7rem;
+    max-width: 95vw;
+  }
+}

@@ -1,0 +1,18 @@
+<div class="login-container">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+    <h2>Connexion</h2>
+    <label>Email</label>
+    <input formControlName="email" type="email" placeholder="Votre email" required [class.invalid]="form.get('email')?.invalid && form.get('email')?.touched">
+    <div class="field-error" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">Email invalide</div>
+
+    <label>Mot de passe</label>
+    <input formControlName="password" type="password" placeholder="Mot de passe" required [class.invalid]="form.get('password')?.invalid && form.get('password')?.touched">
+    <div class="field-error" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">Mot de passe requis</div>
+
+    <button type="submit" [disabled]="loading || form.invalid">Se connecter</button>
+    <div *ngIf="error" class="error-block">{{ error }}</div>
+  </form>
+  <div class="register-link">
+    <a routerLink="/register">Créer un compte</a>
+  </div>
+</div>

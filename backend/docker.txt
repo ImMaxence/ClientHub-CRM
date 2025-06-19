@@ -5,3 +5,8 @@ cp target/clienthub-0.0.1-SNAPSHOT.jar target/clienthub-crm-backend.jar
 Renomme le jar en clienthub-crm-backend.jar et place-le dans backend/target/
 
 docker compose up -d
+
+http://localhost:8080/swagger-ui/index.html
+
+
+mvn clean package -DskipTests

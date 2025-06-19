@@ -1,11 +1,11 @@
 # Dockerfile pour ClientHub CRM Backend (Spring Boot)
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jdk
 
 # Répertoire de travail
 WORKDIR /app
 
 # Copie du jar compilé
-COPY target/clienthub-crm-backend.jar app.jar
+COPY target/clienthub-0.0.1-SNAPSHOT.jar app.jar
 
 # Variables d'environnement (personnalisez au besoin)
 ENV SPRING_PROFILES_ACTIVE=prod
